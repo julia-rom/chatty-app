@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Message from './Message.jsx';
+import { Message, Notification } from './Message.jsx';
 
 function MessageListItem({ content, username, type }) {
     //add Notification to message box if type matches
@@ -32,8 +32,6 @@ class MessageList extends Component {
         return (
             <main className="messages">
                 {messageListItems}
-                <div className="message system">
-                </div>
             </main>
         );
     }
