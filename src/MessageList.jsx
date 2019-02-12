@@ -6,27 +6,17 @@ function MessageListItem({ content, type }) {
     );
 }
 
-class MessageList extends Component {
-    constructor() {
-        super();
+MessageListItem.propTypes = {
+    content: React.PropTypes.string.isRequired,
+    type: React.PropTypes.string.isRequired
+}
 
-        this.state = {
-            messages: [{
-                type: "incomingMessage",
-                content: "I won't be impressed with technology until I can download food.",
-                username: "Anonymous1"
-            },
-            {
-                type: "incomingNotification",
-                content: "Anonymous1 changed their name to nomnom"
-            }]
-        }
-    }
+class MessageList extends Component {
 
     render() {
         //display each unique message item
-        const messageListItems = this.state.messages.map(messageItem => {
-            return < MessageListItem content={messageItem.content} type={messageItem.type} />
+        const messageListItems = this.props.messages.map(messageItem => {
+            return < MessageListItem key={messageItem.id} content={messageItem.content} type={messageItem.type} />
         });
 
         return (
@@ -37,5 +27,9 @@ class MessageList extends Component {
             </main>
         );
     }
+}
+
+MessageList.propTypes = {
+    messages: React.PropTypes.array.isRequired
 }
 export default MessageList;

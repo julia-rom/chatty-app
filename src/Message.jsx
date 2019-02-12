@@ -12,14 +12,14 @@ class Message extends Component {
 }
 
 //includes name change updates
-class NameChange extends Component {
+class Notification extends Component {
     render() {
         return (
-            <div className="NameChange">
+            <div className="Notification">
                 Anonymous1 changed their name to nomnom.
             </div>
         );
     }
 }
 
-export default (Message, NameChange);
+export default (Message, Notification);
