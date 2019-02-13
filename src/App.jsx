@@ -32,15 +32,7 @@ class App extends Component {
 
   //sends new msgs to server
   sendMessages = (message) => {
-    // this.setState({
-    //   messages: this.state.messages.concat({
-    // content: message,
-    // id: (this.state.messages.length + 1),
-    // type: 'incomingMessage',
-    // username: this.state.currentUser.name
-    //   })
-    // })
-    this.socket.send(JSON.stringify({ username: this.state.currentUser.name, message: message }));
+    this.socket.send(JSON.stringify({ username: this.state.currentUser.name, content: message, type: "incomingMessage" }));
   }
 
   componentDidMount() {
@@ -53,12 +45,21 @@ class App extends Component {
         console.log("Connected to websocket server");
       });
 
-      // Handle messages using `this.receiveMessage`
-      // this.socket.addEventListener("message", this.sendMessages)
+      // Handle receiving messages and updates state (adds messages to array)
       this.socket.onmessage = (event) => {
         const msg = JSON.parse(event.data);
-        console.log(msg)
-        this.sendMessages;
+        switch (msg.type) {
+          case "incomingMessage":
+            this.setState(prevState => ({
+              ...prevState,
+              messages: prevState.messages.concat(msg)
+            }));
+            break;
+          // case "incomingNotification":
+          //   this.setState({ currentUser.name : msg.name });
+          //   break;
+          default:
+        }
       }
 
       // Update the state of the app component.
