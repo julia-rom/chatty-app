@@ -9,7 +9,7 @@ class ChatBar extends Component {
             if (event.target.name === 'incomingNotification') {
                 this.props.updateUsername(event.target.value);
             } else if (event.target.name === 'incomingMessage') {
-                this.props.updateMessages(event.target.value, event.target.name);
+                this.props.updateMessages(event.target.value);
             }
         }
     }
