@@ -22,11 +22,10 @@ MessageListItem.propTypes = {
 }
 
 class MessageList extends Component {
-
+    //display each unique message item
     render() {
-        //display each unique message item
         const messageListItems = this.props.messages.map(messageItem => {
-            return < MessageListItem key={messageItem.id} content={messageItem.content} type={messageItem.type} username={messageItem.username} />
+            return <MessageListItem key={messageItem.id} content={messageItem.content} type={messageItem.type} username={messageItem.username} />
         });
 
         return (

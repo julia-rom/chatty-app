@@ -3,16 +3,9 @@ import React, { Component } from 'react';
 //individual messages that are sent out 
 class Message extends Component {
     render() {
-        if (this.props.username === '') {
-            var username = 'anonymous'
-        }
-        else {
-            username = this.props.username
-        }
-
         return (
             <div className="message">
-                <span className="message-username">{username}</span>
+                <span className="message-username">{this.props.username || 'anonymous'}</span>
                 <span className="message-content">{this.props.content}</span>
             </div>
         );
@@ -21,7 +14,7 @@ class Message extends Component {
 
 Message.propTypes = {
     content: React.PropTypes.string.isRequired,
-    username: React.PropTypes.string,
+    username: React.PropTypes.string.isRequired,
 }
 
 //includes name change updates

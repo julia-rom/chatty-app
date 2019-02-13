@@ -8,7 +8,7 @@ class App extends Component {
     super(props);
     this.state = {
       loading: true,
-      currentUser: { name: 'Bob' },
+      currentUser: { name: 'anonymous' },
       messages: [{
         type: 'incomingMessage',
         content: 'I will not be impressed with technology until I can download food.',
@@ -18,19 +18,26 @@ class App extends Component {
       {
         type: 'incomingNotification',
         content: 'Anonymous1 changed their name to nomnom',
+        username: 'nomnom',
         id: 2
       }]
     };
-
   }
 
-  // Called after the component was rendered and it was attached to the DOM
-  // componentDidMount() {
-  //   // After 2 seconds, set `loading` to false in the state.
-  //   setTimeout(() => {
-  //     this.setState({ loading: false }); // this triggers a re-render!
-  //   }, 2000)
-  // }
+  updateUsername = name => {
+    this.setState({ currentUser: { name: name } })
+  }
+
+  updateMessages = message => {
+    this.setState({
+      messages: this.state.messages.concat({
+        content: message,
+        id: (this.state.messages.length + 1),
+        type: '',
+        username: this.state.currentUser.name
+      })
+    })
+  }
 
   componentDidMount() {
     setTimeout(() => {
@@ -40,21 +47,21 @@ class App extends Component {
       const messages = this.state.messages.concat(newMessage)
       // Update the state of the app component.
       // Calling setState will trigger a call to render() in App and all child components.
-      this.setState({ messages: messages })
-    }, 3000);
+      this.setState({ messages: messages, loading: false })
+    }, 2000);
   }
 
   render() {
-    // if (this.state.loading) {
-    //   return <h1>Loading...</h1>
-    // } else {
-    return (
-      <div>
-        < MessageList messages={this.state.messages} />
-        < ChatBar currentUser={this.state.currentUser} />
-      </div>
-    );
+    if (this.state.loading) {
+      return <h1>Loading...</h1>
+    } else {
+      return (
+        <div>
+          < MessageList messages={this.state.messages} />
+          < ChatBar updateUsername={this.updateUsername} updateMessages={this.updateMessages} currentUser={this.state.currentUser} />
+        </div>
+      );
+    }
   }
-  // }
 }
 export default App;
