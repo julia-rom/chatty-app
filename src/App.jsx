@@ -25,15 +25,23 @@ class App extends Component {
   }
 
   updateUsername = name => {
-    this.setState({ currentUser: { name: name } })
+    this.setState({
+      currentUser: { name: name },
+      messages: this.state.messages.concat({
+        content: `${this.state.currentUser.name} changed their name to ${name}`,
+        id: (this.state.messages.length + 1),
+        type: 'incomingNotification',
+        username: this.state.currentUser.name
+      })
+    })
   }
 
-  updateMessages = message => {
+  updateMessages = (message, type) => {
     this.setState({
       messages: this.state.messages.concat({
         content: message,
         id: (this.state.messages.length + 1),
-        type: '',
+        type: 'incomingMessage',
         username: this.state.currentUser.name
       })
     })
