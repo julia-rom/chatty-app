@@ -7,9 +7,9 @@ class ChatBar extends Component {
     handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             if (event.target.name === 'incomingNotification') {
-                this.props.updateUsername(event.target.value);
+                this.props.sendUsername(event.target.value);
             } else if (event.target.name === 'incomingMessage') {
-                this.props.updateMessages(event.target.value, event.target.name);
+                this.props.sendMessages(event.target.value);
             }
         }
     }
@@ -28,8 +28,8 @@ class ChatBar extends Component {
 
 ChatBar.propTypes = {
     currentUser: React.PropTypes.object,
-    updateUsername: React.PropTypes.func,
-    updateMessages: React.PropTypes.func,
+    sendUsername: React.PropTypes.func,
+    sendMessages: React.PropTypes.func,
 }
 
 export default ChatBar;

@@ -9,55 +9,69 @@ class App extends Component {
     this.state = {
       loading: true,
       currentUser: { name: 'anonymous' },
-      messages: [{
-        type: 'incomingMessage',
-        content: 'I will not be impressed with technology until I can download food.',
-        username: 'Anonymous1',
-        id: 1
-      },
-      {
-        type: 'incomingNotification',
-        content: 'Anonymous1 changed their name to nomnom',
-        username: 'nomnom',
-        id: 2
-      }]
+      messages: [] //msgs coming form server will be stored here
     };
   }
 
-  updateUsername = name => {
-    this.setState({
-      currentUser: { name: name },
-      messages: this.state.messages.concat({
-        content: `${this.state.currentUser.name} changed their name to ${name}`,
-        id: (this.state.messages.length + 1),
-        type: 'incomingNotification',
-        username: this.state.currentUser.name
-      })
-    })
+  //send username updates to server
+  sendUsername = (name) => {
+    // this.setState({
+    //   currentUser: { name: name },
+    //   messages: this.state.messages.concat({
+    //     content: `${this.state.currentUser.name} changed their name to ${name}`,
+    //     id: (this.state.messages.length + 1),
+    //     type: 'incomingNotification',
+    //     username: this.state.currentUser.name
+    //   })
+    // })
+    this.socket.send(JSON.stringify({ oldUsername: this.state.currentUser.name, newName: name, content: `${this.state.currentUser.name} changed their name to ${name}`, type: "incomingNotification" }));
+
   }
 
-  updateMessages = (message, type) => {
-    this.setState({
-      messages: this.state.messages.concat({
-        content: message,
-        id: (this.state.messages.length + 1),
-        type: 'incomingMessage',
-        username: this.state.currentUser.name
-      })
-    })
+  //sends new msgs to server
+  sendMessages = (message) => {
+    this.socket.send(JSON.stringify({ username: this.state.currentUser.name, content: message, type: "incomingMessage" }));
   }
 
   componentDidMount() {
     setTimeout(() => {
-      console.log('Simulating incoming message');
-      // Add a new message to the list of messages in the data store
-      const newMessage = { id: 3, username: 'Michelle', content: 'Hello there!' };
-      const messages = this.state.messages.concat(newMessage)
+      // Setup the WebSocket client
+      this.socket = new WebSocket("ws://localhost:3001/websocket");
+
+      // Handle when the socket opens (i.e. is connected to the server)
+      this.socket.addEventListener("open", e => {
+        console.log("Connected to websocket server");
+      });
+
+
+      // Handle receiving messages and updates state (adds messages to array)
+      this.socket.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        switch (msg.type) {
+          case "incomingMessage":
+            this.setState(prevState => ({
+              ...prevState,
+              messages: prevState.messages.concat(msg)
+            }));
+            break;
+          case "incomingNotification":
+            this.setState(prevState => ({
+              ...prevState,
+              messages: prevState.messages.concat(msg),
+              currentUser: { name: msg.newName }
+            }));
+            break;
+          default:
+        }
+      }
+
       // Update the state of the app component.
       // Calling setState will trigger a call to render() in App and all child components.
-      this.setState({ messages: messages, loading: false })
+      this.setState({ loading: false })
     }, 2000);
   }
+
+
 
   render() {
     if (this.state.loading) {
@@ -66,7 +80,7 @@ class App extends Component {
       return (
         <div>
           < MessageList messages={this.state.messages} />
-          < ChatBar updateUsername={this.updateUsername} updateMessages={this.updateMessages} currentUser={this.state.currentUser} />
+          < ChatBar sendUsername={this.sendUsername} sendMessages={this.sendMessages} currentUser={this.state.currentUser} />
         </div>
       );
     }
