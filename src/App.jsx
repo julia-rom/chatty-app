@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
+import NavBar from './NavBar.jsx';
 
 
 class App extends Component {
@@ -15,15 +16,6 @@ class App extends Component {
 
   //send username updates to server
   sendUsername = (name) => {
-    // this.setState({
-    //   currentUser: { name: name },
-    //   messages: this.state.messages.concat({
-    //     content: `${this.state.currentUser.name} changed their name to ${name}`,
-    //     id: (this.state.messages.length + 1),
-    //     type: 'incomingNotification',
-    //     username: this.state.currentUser.name
-    //   })
-    // })
     this.socket.send(JSON.stringify({ oldUsername: this.state.currentUser.name, newName: name, content: `${this.state.currentUser.name} changed their name to ${name}`, type: "incomingNotification" }));
 
   }
@@ -79,6 +71,7 @@ class App extends Component {
     } else {
       return (
         <div>
+          < NavBar />
           < MessageList messages={this.state.messages} />
           < ChatBar sendUsername={this.sendUsername} sendMessages={this.sendMessages} currentUser={this.state.currentUser} />
         </div>
