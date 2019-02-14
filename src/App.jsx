@@ -9,24 +9,22 @@ class App extends Component {
     this.state = {
       loading: true,
       currentUser: { name: 'anonymous' },
-      message: "",
       messages: [] //msgs coming form server will be stored here
     };
   }
 
   //send username updates to server
   sendUsername = (name) => {
-    // const parsedName = JSON.parse(name.data);
-    this.setState({
-      currentUser: { name: name },
-      messages: this.state.messages.concat({
-        content: `${this.state.currentUser.name} changed their name to ${name}`,
-        id: (this.state.messages.length + 1),
-        type: 'incomingNotification',
-        username: this.state.currentUser.name
-      })
-    })
-    this.socket.send(JSON.stringify({ oldUsername: this.state.currentUser.name, newName: name }));
+    // this.setState({
+    //   currentUser: { name: name },
+    //   messages: this.state.messages.concat({
+    //     content: `${this.state.currentUser.name} changed their name to ${name}`,
+    //     id: (this.state.messages.length + 1),
+    //     type: 'incomingNotification',
+    //     username: this.state.currentUser.name
+    //   })
+    // })
+    this.socket.send(JSON.stringify({ oldUsername: this.state.currentUser.name, newName: name, content: `${this.state.currentUser.name} changed their name to ${name}`, type: "incomingNotification" }));
 
   }
 
@@ -45,6 +43,7 @@ class App extends Component {
         console.log("Connected to websocket server");
       });
 
+
       // Handle receiving messages and updates state (adds messages to array)
       this.socket.onmessage = (event) => {
         const msg = JSON.parse(event.data);
@@ -55,9 +54,13 @@ class App extends Component {
               messages: prevState.messages.concat(msg)
             }));
             break;
-          // case "incomingNotification":
-          //   this.setState({ currentUser.name : msg.name });
-          //   break;
+          case "incomingNotification":
+            this.setState(prevState => ({
+              ...prevState,
+              messages: prevState.messages.concat(msg),
+              currentUser: { name: msg.newName }
+            }));
+            break;
           default:
         }
       }
