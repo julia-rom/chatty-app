@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-//individual messages that are sent out 
+//individual messages that are sent out to message list
 class Message extends Component {
     render() {
 
