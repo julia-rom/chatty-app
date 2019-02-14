@@ -10,7 +10,8 @@ class App extends Component {
     this.state = {
       loading: true,
       currentUser: { name: 'anonymous' },
-      messages: [] //msgs coming form server will be stored here
+      messages: [], //msgs coming form server will be stored here
+      onlineUsers: null
     };
   }
 
@@ -52,6 +53,9 @@ class App extends Component {
               messages: prevState.messages.concat(msg),
               currentUser: { name: msg.newName }
             }));
+            break;
+          case "userStatusUpdate":
+            this.setState({ onlineUsers: msg.content })
             break;
           default:
         }
