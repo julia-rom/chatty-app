@@ -8,6 +8,8 @@ class ChatBar extends Component {
                 this.props.sendUsername(event.target.value);
             } else if (event.target.name === 'incomingMessage') {
                 this.props.sendMessages(event.target.value);
+                //reset text field to empty
+                event.target.value = "";
             }
         }
     }

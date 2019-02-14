@@ -41,12 +41,14 @@ class App extends Component {
       this.socket.onmessage = (event) => {
         const msg = JSON.parse(event.data);
         switch (msg.type) {
+          //adds new messages to chatbox
           case "incomingMessage":
             this.setState(prevState => ({
               ...prevState,
               messages: prevState.messages.concat(msg)
             }));
             break;
+          //adds new username updates to chatbox  
           case "incomingNotification":
             this.setState(prevState => ({
               ...prevState,
@@ -54,6 +56,7 @@ class App extends Component {
               currentUser: { name: msg.newName }
             }));
             break;
+          //updates counter on client page
           case "userStatusUpdate":
             this.setState({ onlineUsers: msg.content })
             break;
@@ -75,7 +78,7 @@ class App extends Component {
     } else {
       return (
         <div>
-          < NavBar />
+          < NavBar onlineUsers={this.state.onlineUsers} />
           < MessageList messages={this.state.messages} />
           < ChatBar sendUsername={this.sendUsername} sendMessages={this.sendMessages} currentUser={this.state.currentUser} />
         </div>
