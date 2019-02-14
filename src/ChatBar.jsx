@@ -15,6 +15,7 @@ class ChatBar extends Component {
                     msg = this.filterMsg(msg, imageURL)
                 };
                 //sends msg to server 
+                console.log("msg: ", msg, " imageURL: ", imageURL)
                 this.props.sendMessages(msg, imageURL);
                 //reset text field to empty
                 event.target.value = "";
@@ -29,12 +30,12 @@ class ChatBar extends Component {
         let imageURL = null;
         //if the index does not equal -1, that means it has an image url
         if (mediaStartIndex !== -1) {
-            imageURL = msgInput.match(regex);
+            imageURL = (msgInput.match(regex))[0];
         }
         return imageURL;
     }
 
-    //extracts img url out of string and then joins string back together
+    //extracts img url out of string
     filterMsg = (msgInput, imageURL) => {
         return msgInput.replace(imageURL, "")
     }

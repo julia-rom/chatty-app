@@ -22,8 +22,8 @@ class App extends Component {
   }
 
   //sends new msgs to server
-  sendMessages = (message) => {
-    this.socket.send(JSON.stringify({ username: this.state.currentUser.name, content: message, type: "incomingMessage" }));
+  sendMessages = (message, imageURL) => {
+    this.socket.send(JSON.stringify({ username: this.state.currentUser.name, content: message, imageURL: imageURL, type: "incomingMessage" }));
   }
 
   componentDidMount() {
