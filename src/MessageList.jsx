@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Message, Notification } from './Message.jsx';
 
-function MessageListItem({ content, username, type }) {
+function MessageListItem({ content, username, imageURL, type }) {
     //add Notification to message box if type matches
     if (type === 'incomingNotification') {
         return (
@@ -10,7 +10,7 @@ function MessageListItem({ content, username, type }) {
     }
     //otherwise add regular message item to main message container
     return (
-        < Message username={username} content={content} />
+        < Message username={username} content={content} imageURL={imageURL} />
     )
 }
 
@@ -18,14 +18,15 @@ function MessageListItem({ content, username, type }) {
 MessageListItem.propTypes = {
     content: React.PropTypes.string.isRequired,
     username: React.PropTypes.string,
-    type: React.PropTypes.string
+    type: React.PropTypes.string,
+    imageURL: React.PropTypes.string
 }
 
 class MessageList extends Component {
     //display each unique message item
     render() {
         const messageListItems = this.props.messages.map(messageItem => {
-            return <MessageListItem key={messageItem.id} content={messageItem.content} type={messageItem.type} username={messageItem.username} />
+            return <MessageListItem key={messageItem.id} content={messageItem.content} imageURL={messageItem.imageURL} type={messageItem.type} username={messageItem.username} />
         });
 
         return (

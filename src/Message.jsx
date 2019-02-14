@@ -6,7 +6,10 @@ class Message extends Component {
         return (
             <div className="message">
                 <span className="message-username">{this.props.username || 'anonymous'}</span>
-                <span className="message-content">{this.props.content}</span>
+                <span className="message-content">{this.props.content}
+                    {this.props.imageURL && <img src={this.props.imageURL} />}
+                </span>
+
             </div>
         );
     }
@@ -15,6 +18,7 @@ class Message extends Component {
 Message.propTypes = {
     content: React.PropTypes.string.isRequired,
     username: React.PropTypes.string.isRequired,
+    imageURL: React.PropTypes.string
 }
 
 //includes name change updates
