@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 import NavBar from './NavBar.jsx';
+import { endianness } from 'os';
 
 
 class App extends Component {
@@ -68,6 +69,17 @@ class App extends Component {
       // Calling setState will trigger a call to render() in App and all child components.
       this.setState({ loading: false })
     }, 2000);
+  }
+
+
+  componentDidUpdate() {
+    //autoscrolls to bottom of messages any time new ones come in
+    try {
+      const elements = document.getElementsByClassName('message');
+      elements[elements.length - 1].scrollIntoView({ behavior: "smooth" });
+    } catch (err) {
+      console.log("write something plz")
+    }
   }
 
 
