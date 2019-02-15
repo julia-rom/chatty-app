@@ -1,45 +1,30 @@
-React Boilerplate
+Chatty App
 =====================
 
-A minimal and light dev environment for ReactJS.
+A single page chat application built with ReactJS
 
-### Usage
+## Getting Started
 
-Clone the boilerplate and create your own git repo.
+1. Fork this repository, then clone your fork of this repository.
+2. Follow instructions on the [server repository](https://github.com/julia-rom/chatty-app-server/ "Server repo")
+2. Install dependencies: npm i
+3. Start the web server using the npm run local command. The app will be served at http://localhost:3000/.
+4. Go to http://localhost:3000/ in your browser.
+5. Ensure you have two tabs in terminal: each using npm run local for both client and server repos
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
+### Features
 
-Install the dependencies and start the server.
+Message list that renders real time chat log and username changes
+Colors set for different users
+Header that displays amount of connected users
+Embed images & gifs
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
+### Tech Stack
 
-### Static Files
+Webpack with Babel, JSX, ES6, webpack dev server (comes with boilerplate)
+WebSockets using Node package ws on the server-side, and native WebSocket on client side
+ReactJS
 
-You can store static files like images, fonts, etc in the `build` folder.
+### App Preview
 
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
-
-### Dependencies
-
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+![picture alt](https://github.com/julia-rom/chatty-app/blob/master/media/chatty-app-vid.gif)
